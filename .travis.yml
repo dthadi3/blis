@@ -51,6 +51,61 @@ matrix:
     env: OOT=0 TEST=FAST SDE=0 THR="none" CONF="cortexa57" \
       PACKAGES="gcc-aarch64-linux-gnu qemu-system-arm qemu-user" \
       TESTSUITE_WRAPPER="qemu-aarch64 -L /usr/aarch64-linux-gnu/"
+#power_jobs
+# full testsuite (all tests except for mixed datatype)
+  - os: linux
+    arch: ppc64le
+    compiler: gcc
+    env: OOT=0 TEST=1 SDE=0 THR="none" CONF="auto"
+  # mixed-datatype testsuite (gemm_nn only)
+  - os: linux
+    arch: ppc64le
+    compiler: gcc
+    env: OOT=0 TEST=MD SDE=0 THR="none" CONF="auto"
+  # salt testsuite (fast set of operations+parameters)
+  - os: linux
+    arch: ppc64le
+    compiler: gcc
+    env: OOT=0 TEST=SALT SDE=0 THR="none" CONF="auto"
+  # test x86_64 ukrs with SDE
+  - os: linux
+    arch: ppc64le
+    compiler: gcc
+    env: OOT=0 TEST=0 SDE=1 THR="none" CONF="x86_64"
+  # openmp build
+  - os: linux
+    arch: ppc64le
+    compiler: gcc
+    env: OOT=0 TEST=0 SDE=0 THR="openmp" CONF="auto"
+  # pthreads build
+  - os: linux
+    arch: ppc64le
+    compiler: gcc
+    env: OOT=0 TEST=0 SDE=0 THR="pthreads" CONF="auto"
+  # out-of-tree build
+  - os: linux
+    arch: ppc64le
+    compiler: gcc
+    env: OOT=1 TEST=0 SDE=0 THR="none" CONF="auto"
+  # clang build
+  - os: linux
+    arch: ppc64le
+    compiler: clang
+    env: OOT=0 TEST=0 SDE=0 THR="none" CONF="auto"
+  # cortexa15 build and fast testsuite (qemu)
+  - os: linux
+    arch: ppc64le
+    compiler: arm-linux-gnueabihf-gcc
+    env: OOT=0 TEST=FAST SDE=0 THR="none" CONF="cortexa15" \
+      PACKAGES="gcc-arm-linux-gnueabihf qemu-system-arm qemu-user" \
+      TESTSUITE_WRAPPER="qemu-arm -cpu cortex-a15 -L /usr/arm-linux-gnueabihf/"
+  # cortexa57 build and fast testsuite (qemu)
+  - os: linux
+    arch: ppc64le
+    compiler: aarch64-linux-gnu-gcc
+    env: OOT=0 TEST=FAST SDE=0 THR="none" CONF="cortexa57" \
+      PACKAGES="gcc-aarch64-linux-gnu qemu-system-arm qemu-user" \
+      TESTSUITE_WRAPPER="qemu-aarch64 -L /usr/aarch64-linux-gnu/"      
 install:
 - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo rm -f /usr/bin/as; fi
 - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo ln -s /usr/lib/binutils-2.26/bin/as /usr/bin/as; fi
